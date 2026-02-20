@@ -18,6 +18,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final _phoneController = TextEditingController();
   final _regNoController = TextEditingController();
 
+  String? _selectedGender;
+
   Future signUp() async {
     try {
       // 1. Create the user in Firebase Authentication
@@ -32,6 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
         'last_name': _lastNameController.text.trim(),
         'phone': _phoneController.text.trim(),
         'reg_no': _regNoController.text.trim(),
+        'gender': _selectedGender ?? '',
         'email': _emailController.text.trim(),
       });
 
@@ -53,6 +56,28 @@ class _RegisterPageState extends State<RegisterPage> {
             TextField(controller: _lastNameController, decoration: const InputDecoration(labelText: "Last Name")),
             TextField(controller: _phoneController, decoration: const InputDecoration(labelText: "Phone Number"), keyboardType: TextInputType.phone),
             TextField(controller: _regNoController, decoration: const InputDecoration(labelText: "Registration Number")),
+            const SizedBox(height: 12),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text("Gender", style: Theme.of(context).textTheme.bodyMedium),
+            ),
+            Row(
+              children: [
+                Radio<String>(
+                  value: 'Male',
+                  groupValue: _selectedGender,
+                  onChanged: (value) => setState(() => _selectedGender = value),
+                ),
+                const Text('Male'),
+                const SizedBox(width: 16),
+                Radio<String>(
+                  value: 'Female',
+                  groupValue: _selectedGender,
+                  onChanged: (value) => setState(() => _selectedGender = value),
+                ),
+                const Text('Female'),
+              ],
+            ),
             TextField(controller: _emailController, decoration: const InputDecoration(labelText: "Email")),
             TextField(controller: _passwordController, decoration: const InputDecoration(labelText: "Password"), obscureText: true),
             const SizedBox(height: 20),
